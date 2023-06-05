@@ -12,11 +12,9 @@ professions = ['Engineer', 'Doctor', 'Teacher', 'Artist', 'Designer', 'Developer
 with open('customers.csv', 'w', newline='') as file:
     writer = csv.writer(file)
     # Write the header
-    writer.writerow(["lastName", "firstName", "birthdate", "profession"])
+    writer.writerow(["lastName", "firstName", "profession", "street", "city", "country"])
 
     # Generate and write 100 rows of fake data
     for _ in range(10000):
-        birthdate = fake.date_of_birth(minimum_age=20, maximum_age=70)
-        birthdate = birthdate.strftime('%m/%d/%Y')  # Format the date as MM/DD/YYYY
-        writer.writerow([fake.last_name(), fake.first_name(), birthdate, random.choice(professions)])
+        writer.writerow([fake.last_name(), fake.first_name(), random.choice(professions), fake.street_address(), fake.city(), fake.country()])
 
