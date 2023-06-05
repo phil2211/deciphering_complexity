@@ -1,0 +1,46 @@
+[
+    {
+        "database": "myCustomers",
+        "index": "myCustomers",
+        "nodes": {
+            "table": "customers",
+            "children": [
+                {
+                    "table": "contacts",
+                    "columns": [
+                        "id",
+                        "channel",
+                        "value",
+                        "type"
+                    ],
+                    "relationship": {
+                        "variant": "object",
+                        "type": "one_to_many",
+                        "foreign_key": {
+                            "child": "customer_id",
+                            "parent": "id"
+                        }
+                    }
+                },
+                {
+                    "table": "accounts",
+                    "columns": [
+                        "id",
+                        "number",
+                        "description",
+                        "balance"
+                    ],
+                    "relationship": {
+                        "variant": "object",
+                        "type": "one_to_many",
+                        "foreign_key": {
+                            "child": "customer_id",
+                            "parent": "id"
+                        }
+                    }
+                }
+
+            ]
+        }
+    }
+]
