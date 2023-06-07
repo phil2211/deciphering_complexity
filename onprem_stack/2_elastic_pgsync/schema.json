@@ -1,45 +1,31 @@
 [
     {
-        "database": "myCustomers",
-        "index": "myCustomers",
+        "database": "mycustomers",
+        "index": "mycustomers",
         "nodes": {
             "table": "customers",
+            "columns": [
+                "id",
+                "lastname",
+                "firstname",
+                "profession",
+                "street",
+                "city",
+                "country"
+            ],
             "children": [
                 {
                     "table": "contacts",
                     "columns": [
-                        "id",
+                        "type",
                         "channel",
-                        "value",
-                        "type"
+                        "value"
                     ],
                     "relationship": {
                         "variant": "object",
-                        "type": "one_to_many",
-                        "foreign_key": {
-                            "child": "customer_id",
-                            "parent": "id"
-                        }
-                    }
-                },
-                {
-                    "table": "accounts",
-                    "columns": [
-                        "id",
-                        "number",
-                        "description",
-                        "balance"
-                    ],
-                    "relationship": {
-                        "variant": "object",
-                        "type": "one_to_many",
-                        "foreign_key": {
-                            "child": "customer_id",
-                            "parent": "id"
-                        }
+                        "type": "one_to_many"
                     }
                 }
-
             ]
         }
     }

@@ -6,7 +6,7 @@ import faker
 fake = faker.Faker()
 
 types = ['personal', 'work']
-channels = ['email', 'phone', 'address']
+channels = ['email', 'phone']
 
 # Open (or create) a CSV file to write to
 with open('contacts.csv', 'w', newline='') as file:
@@ -23,8 +23,6 @@ with open('contacts.csv', 'w', newline='') as file:
             value = fake.email()
         elif channel == 'phone':
             value = fake.phone_number()
-        elif channel == 'address':
-            value = fake.address().replace('\n', ', ')
         
         customerId = random.randint(1, 10000)  # Assuming the customer IDs range from 1 to 10000
 

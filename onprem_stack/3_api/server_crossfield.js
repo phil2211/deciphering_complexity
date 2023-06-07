@@ -15,15 +15,20 @@ const client = new Client({
 // Define your GraphQL schema
 const typeDefs = gql`
   type Query {
-    search(searchText: String!, startRow: Int!, endRow: Int!): [SearchResult!]!
+    search(searchText: String!, startRow: Int!, endRow: Int!): SearchResult!
   }
 
   type SearchResult {
+    lastRow: Int
+    rows: [Customer!]
+  }
+
+  type Customer {
     id: ID!
     lastname: String
     firstname: String
     profession: String
-    contacts: [Contact!]!
+    contacts: [Contact!]
   }
 
   type Contact {
@@ -50,14 +55,18 @@ const resolvers = {
             }
           }
         })
-        console.log(result.hits.hits);
-      return result.hits.hits.map(hit => ({
-        id: hit._id,
-        lastname: hit._source.lastname,
-        firstname: hit._source.firstname,
-        profession: hit._source.profession,
-        contacts: hit._source.contacts
-      }));
+
+      console.log(result.hits.hits);
+      return  {
+        lastRow: result.hits.total.value,
+        rows: result.hits.hits.map(hit => ({
+          id: hit._id,
+          lastname: hit._source.lastname,
+          firstname: hit._source.firstname,
+          profession: hit._source.profession,
+          contacts: hit._source.contacts
+        }))
+      }
     }
   }
 };
