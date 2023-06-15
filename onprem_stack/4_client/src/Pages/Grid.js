@@ -31,9 +31,9 @@ const Grid = ({ client }) => {
         { field: "lastname" },
         { field: "firstname" },
         { field: "profession" },
-        { field: "street", editable: true, onCellChange: handleUpdate },
-        { field: "city", editable: true, onCellChange: handleUpdate },
-        { field: "country", editable: true, onCellChange: handleUpdate }
+        { field: "street", editable: true, onCellValueChanged: handleUpdate },
+        { field: "city", editable: true, onCellValueChanged: handleUpdate },
+        { field: "country", editable: true, onCellValueChanged: handleUpdate }
     ]);
 
     const detailColumnDefs = [

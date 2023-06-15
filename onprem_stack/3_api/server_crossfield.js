@@ -13,6 +13,7 @@ const elasticClient = new elastic.Client({
     }
 });
 
+// Initialize the PostgreSQL client
 const pgClient = new pg.Client({
   host: 'ec2-3-69-43-70.eu-central-1.compute.amazonaws.com',
   port: 5432,
