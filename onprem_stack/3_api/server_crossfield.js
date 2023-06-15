@@ -76,40 +76,50 @@ const resolvers = {
   },
   Query: {
     search: async (_, { searchText, startRow, endRow }) => {
-        const result = await elasticClient.search({
-          index: 'mycustomers',
-          from: startRow,
-          size: endRow - startRow,
-          query: {
-            bool: {
-              should: [
-                {
-                  multi_match: {
-                    query: searchText,
-                    type: "cross_fields",
-                    operator: "and",
-                    fields: ['lastname', 'firstname', 'profession', 'street', 'city', 'country'],
-                  }
-                },
-                {
-                  nested: {
-                    path: "contacts",
-                    query: {
-                      bool: {
-                        should: [
-                          {
-                            match: { "contacts.value": searchText }
-                          },
-                        ]
-                      }
+      const query =
+        searchText === "" ? {
+          match_all: {}
+        } :
+        {
+          bool: {
+            should: [
+              {
+                multi_match: {
+                  query: searchText,
+                  type: "cross_fields",
+                  operator: "and",
+                  fields: ['lastname', 'firstname', 'profession', 'street', 'city', 'country']
+                }
+              },
+              {
+                nested: {
+                  path: "contacts",
+                  query: {
+                    bool: {
+                      should: [
+                        {
+                          match: {
+                            "contacts.value": {
+                              query: searchText,
+                              fuzziness: "AUTO"
+                          } }
+                        },
+                      ]
                     }
                   }
                 }
-              ],
-              minimum_should_match: 1
-            }
+              }
+            ],
+            minimum_should_match: 0
           }
-        })
+        }
+      
+      const result = await elasticClient.search({
+        index: 'mycustomers',
+        from: startRow,
+        size: endRow - startRow,
+        query
+      })
 
       console.log(result.hits.hits);
       return  {

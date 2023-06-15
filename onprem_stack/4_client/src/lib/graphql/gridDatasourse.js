@@ -28,7 +28,7 @@ export const createServerSideDatasource = ({ client, searchText="" }) => {
     return {
       getRows: ({ request, successCallback, failCallback }) => {
         //console.log(request);
-        const { startRow, endRow, sortModel } = request;
+        const { startRow, endRow } = request;
             const query = { 
                 query: gql`
                 query Search(
