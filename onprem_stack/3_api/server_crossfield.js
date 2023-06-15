@@ -1,8 +1,9 @@
 const { ApolloServer, gql } = require('apollo-server');
-const { Client } = require('@elastic/elasticsearch');
+const elastic = require('@elastic/elasticsearch');
+const pg = require('pg');
 
 // Initialize the Elasticsearch client
-const client = new Client({
+const elasticClient = new elastic.Client({
     node: 'https://ec2-18-159-124-217.eu-central-1.compute.amazonaws.com:9200',
     tls: {
         rejectUnauthorized: false
@@ -12,10 +13,26 @@ const client = new Client({
     }
 });
 
+const pgClient = new pg.Client({
+  host: 'ec2-3-69-43-70.eu-central-1.compute.amazonaws.com',
+  port: 5432,
+  user: 'webapp',
+  password: 'Passw0rd',
+  database: 'mycustomers',
+});
+
+pgClient.connect();
+
 // Define your GraphQL schema
 const typeDefs = gql`
   type Query {
     search(searchText: String!, startRow: Int!, endRow: Int!): SearchResult!
+  }
+
+  type Mutation {
+    updateStreet(id: Int!, street: String): Customer
+    updateCity(id: Int!, city: String): Customer
+    updateCountry(id: Int!, country: String): Customer
   }
 
   type SearchResult {
@@ -43,15 +60,29 @@ const typeDefs = gql`
 
 // Define your resolvers
 const resolvers = {
+  Mutation: {
+    updateStreet: async (_, { id, street }) => {
+      const result = await pgClient.query(`UPDATE customers SET street = $1 WHERE id = $2 RETURNING *`, [street, id]);
+      return result.rows[0];
+    },
+    updateCity: async (_, { id, city }) => {
+      const result = await pgClient.query(`UPDATE customers SET city = $1 WHERE id = $2 RETURNING *`, [city, id]);
+      return result.rows[0];
+    },
+    updateCountry: async (_, { id, country }) => {
+      const result = await pgClient.query(`UPDATE customers SET country = $1 WHERE id = $2 RETURNING *`, [country, id]);
+      return result.rows[0];
+    }
+  },
   Query: {
     search: async (_, { searchText, startRow, endRow }) => {
-        const result = await client.search({
+        const result = await elasticClient.search({
           index: 'mycustomers',
           from: startRow,
           size: endRow - startRow,
           query: {
             bool: {
-              "should": [
+              should: [
                 {
                   multi_match: {
                     query: searchText,
@@ -61,11 +92,21 @@ const resolvers = {
                   }
                 },
                 {
-                  match: {
-                    "contacts.value": searchText
+                  nested: {
+                    path: "contacts",
+                    query: {
+                      bool: {
+                        should: [
+                          {
+                            match: { "contacts.value": searchText }
+                          },
+                        ]
+                      }
+                    }
                   }
                 }
-              ]
+              ],
+              minimum_should_match: 1
             }
           }
         })

@@ -1,21 +1,18 @@
 import { gql } from "@apollo/client";
-import { forEach } from "lodash";
+import { upperFirst, toInteger } from "lodash";
 
-export const updateAccount = ({ client, accountNumber, amount }) => {
+export const updateField = ({ client, id, value, valueField }) => {
   const query = {
     query: gql`
-    mutation($accountNumber:String, $amount:Int) {
-      updateAccountBalance(input: {
-        accountNumber:$accountNumber,
-        amount:$amount
-      }) {
-        aknowledge
+    mutation($value:String, $id:Int!) {
+      update${upperFirst(valueField)} (id:$id, ${valueField}:$value) {
+        id
       }
     }
     `,
     variables: {
-      accountNumber,
-      amount
+      id: toInteger(id),
+      value
     }
   };
   

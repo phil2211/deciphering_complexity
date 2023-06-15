@@ -3,7 +3,7 @@ import { AgGridReact } from "ag-grid-react";
 import TextInput from "@leafygreen-ui/text-input";
 import { debounce } from "lodash";
 import Header from "../Components/Header";
-import { createServerSideDatasource, updateAccount } from "../lib/graphql/gridDatasourse";
+import { createServerSideDatasource, updateField } from "../lib/graphql/gridDatasourse";
 import apolloClientConsumer from "../lib/graphql/apolloClientConsumer";
 
 import "ag-grid-community/dist/styles/ag-grid.css";
@@ -20,15 +20,20 @@ const Grid = ({ client }) => {
     const [gridApi, setGridApi] = useState(null);
 
     const dbSetSearchText = debounce(setSearchText, 500);
+
+    const handleUpdate = ({ oldValue, newValue, data, column }) => {
+        console.log(oldValue, newValue, data, column);
+        updateField({ client, id: data.id, value: newValue, valueField: column.colId });
+    }
     
     const [columnDefs] = useState([
         { field: "id", cellRenderer: "agGroupCellRenderer" },
         { field: "lastname" },
         { field: "firstname" },
         { field: "profession" },
-        { field: "street" },
-        { field: "city" },
-        { field: "country" }
+        { field: "street", editable: true, onCellChange: handleUpdate },
+        { field: "city", editable: true, onCellChange: handleUpdate },
+        { field: "country", editable: true, onCellChange: handleUpdate }
     ]);
 
     const detailColumnDefs = [
