@@ -15,6 +15,7 @@ PGHOST=$3
 ELASTICSEARCH_PASSWORD=$4
 
 curl -k -X DELETE "https://elastic:${ELASTICSEARCH_PASSWORD}@localhost:9200/mycustomers?pretty" -H 'Content-Type: application/json'
+curl -k -X PUT "https://elastic:${ELASTICSEARCH_PASSWORD}@localhost:9200/mycustomers?pretty" -H 'Content-Type: application/json' -d @mappings.json
 rm -f ./.mycustomers_mycustomers
 export PG_USER=$PGUSER
 export PG_HOST=$PGHOST

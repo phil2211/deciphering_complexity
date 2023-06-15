@@ -26,46 +26,10 @@
     },
     "mappings": {
         "properties": {
-            "_meta": {
-                "properties": {
-                    "contacts": {
-                        "properties": {
-                            "id": {
-                                "type": "long"
-                            }
-                        }
-                    }
-                }
-            },
             "contacts": {
+                "type": "nested",
                 "properties": {
-                    "channel": {
-                        "type": "text",
-                        "fields": {
-                            "keyword": {
-                                "type": "keyword",
-                                "ignore_above": 256
-                            }
-                        }
-                    },
-                    "type": {
-                        "type": "text",
-                        "fields": {
-                            "keyword": {
-                                "type": "keyword",
-                                "ignore_above": 256
-                            }
-                        }
-                    },
-                    "value": {
-                        "type": "text",
-                        "fields": {
-                            "keyword": {
-                                "type": "keyword",
-                                "ignore_above": 256
-                            }
-                        }
-                    }
+                    "value": {"type": "keyword"}
                 }
             },
             "firstname": {

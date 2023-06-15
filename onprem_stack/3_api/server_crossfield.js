@@ -28,6 +28,9 @@ const typeDefs = gql`
     lastname: String
     firstname: String
     profession: String
+    street: String
+    city: String
+    country: String
     contacts: [Contact!]
   }
 
@@ -41,17 +44,28 @@ const typeDefs = gql`
 // Define your resolvers
 const resolvers = {
   Query: {
-    search: async (_, { searchText }) => {
+    search: async (_, { searchText, startRow, endRow }) => {
         const result = await client.search({
           index: 'mycustomers',
-          from: 0,
-          size: 10,
+          from: startRow,
+          size: endRow - startRow,
           query: {
-            multi_match: {
-              query: searchText,
-              type: "cross_fields",
-              operator: "and",
-              fields: ['lastname', 'firstname', 'profession']
+            bool: {
+              "should": [
+                {
+                  multi_match: {
+                    query: searchText,
+                    type: "cross_fields",
+                    operator: "and",
+                    fields: ['lastname', 'firstname', 'profession', 'street', 'city', 'country'],
+                  }
+                },
+                {
+                  match: {
+                    "contacts.value": searchText
+                  }
+                }
+              ]
             }
           }
         })
@@ -64,6 +78,9 @@ const resolvers = {
           lastname: hit._source.lastname,
           firstname: hit._source.firstname,
           profession: hit._source.profession,
+          street: hit._source.street,
+          city: hit._source.city,
+          country: hit._source.country,
           contacts: hit._source.contacts
         }))
       }

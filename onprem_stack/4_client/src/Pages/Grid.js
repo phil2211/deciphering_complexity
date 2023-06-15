@@ -1,8 +1,7 @@
 import React, { useState, useEffect, Component } from "react";
 import { AgGridReact } from "ag-grid-react";
-import Button from "@leafygreen-ui/button";
 import TextInput from "@leafygreen-ui/text-input";
-import { debounce, forEach, get } from "lodash";
+import { debounce } from "lodash";
 import Header from "../Components/Header";
 import { createServerSideDatasource, updateAccount } from "../lib/graphql/gridDatasourse";
 import apolloClientConsumer from "../lib/graphql/apolloClientConsumer";
@@ -10,10 +9,6 @@ import apolloClientConsumer from "../lib/graphql/apolloClientConsumer";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import "ag-grid-enterprise";
-
-const formatCurrency = (params) => {
-    return new Intl.NumberFormat('de-DE', {style: 'currency', currency: 'EUR'}).format(params.value);
-}
 
 const formatNumber = (value) => {
     return new Intl.NumberFormat('de-DE').format(value);
@@ -31,13 +26,15 @@ const Grid = ({ client }) => {
         { field: "lastname" },
         { field: "firstname" },
         { field: "profession" },
+        { field: "street" },
+        { field: "city" },
+        { field: "country" }
     ]);
 
     const detailColumnDefs = [
-        { field: "number" },
-        { field: "description" },
         { field: "type" },
-        { field: "balance" }
+        { field: "value" },
+        { field: "channel" },
     ]
 
     useEffect(() => {
@@ -86,9 +83,8 @@ const Grid = ({ client }) => {
                     detailCellRendererParams={{
                         refreshStrategy: 'rows',
                         getDetailRowData: (params) => {
-                            console.log("DETAILS")
                             params.successCallback(() => {
-                                return params.data.accounts;
+                                return params.data.contacts;
                             })
                         },
                         detailGridOptions: {
@@ -109,46 +105,3 @@ const Grid = ({ client }) => {
 }
 
 export default apolloClientConsumer(Grid);
-
-
-export class BtnCellRenderer extends Component {
-    constructor(props) {
-      super(props);
-      this.btnDepositHandler = this.btnDepositHandler.bind(this);
-      this.btnWithdrawHandler = this.btnWithdrawHandler.bind(this);
-    }
-    btnDepositHandler() {
-        this.props.clicked(this.props.data.number, "deposit");
-    }
-    btnWithdrawHandler() {
-        this.props.clicked(this.props.data.number, "withdraw");
-    } 
-    render() {
-        return (
-          <>
-                <button style={{marginRight: 10}} onClick={this.btnDepositHandler}>Deposit</button>
-                <button onClick={this.btnWithdrawHandler}>Withdraw</button>
-          </>
-      )
-    }
-}
-
-
-const tokenizer = (dotString) => {
-    const result = {};
-
-    // Split path into component parts
-    const parts = dotString.split('.');
-
-    // Create sub-objects along path as needed
-    let target = result;
-    while (parts.length > 1) {
-        const part = parts.shift();
-        target = target[part] = target[part] || {};
-    }
-
-    // Set value at end of path
-    target[parts[0]] = dotString
-  
-    return result;
-}

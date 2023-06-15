@@ -50,6 +50,14 @@ export const createServerSideDatasource = ({ client, searchText="" }) => {
                         firstname
                         lastname
                         profession
+                        street
+                        city
+                        country
+                        contacts {
+                          type
+                          value
+                          channel
+                        }
                       }
                     }
                   }
