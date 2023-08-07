@@ -11,9 +11,9 @@ channels = ['email', 'phone']
 
 # Connect to the PostgreSQL database
 conn = psycopg2.connect(
-    dbname="mycustomer",
+    dbname="mycustomers",
     user="postgres",
-    password="Passw0rd",
+    password="example",
     host="db"
 )
 cur = conn.cursor()
@@ -53,8 +53,8 @@ CREATE TABLE contacts (
 for _ in range(10000):  # Generate 10000 rows of fake data
     # Insert fake data into customers
     cur.execute("""
-        INSERT INTO contacts (lastName, firstName, profession, street, city, country)
-        VALUES (%s, %s, %s);
+        INSERT INTO customers (lastName, firstName, profession, street, city, country)
+        VALUES (%s, %s, %s, %s, %s, %s);
     """, (fake.last_name(), fake.first_name(), random.choice(professions), fake.street_address(), fake.city(), fake.country()))
 
 for _ in range(30000): # Generate 30000 rows of fake data
@@ -70,8 +70,8 @@ for _ in range(30000): # Generate 30000 rows of fake data
     customerId = random.randint(1, 10000)  # Assuming the customer IDs range from 1 to 10000
 
     cur.execute("""
-        INSERT INTO customers (type, channel, value, customerId)
-        VALUES (%s, %s, %s);
+        INSERT INTO contacts (type, channel, value, customerId)
+        VALUES (%s, %s, %s, %s);
     """, (type, channel, value, customerId))
 
 # Commit changes and close connection

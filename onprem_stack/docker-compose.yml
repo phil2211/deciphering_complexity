@@ -3,19 +3,31 @@ version: '3.1'
 
 services:
   db:
-    image: postgres
+    image: postgres:latest
     restart: always
-    build:
-      context: ./1_postgres
     environment:
       POSTGRES_PASSWORD: example
+      POSTGRES_DB: mycustomers
+      POSTGRES_USER: postgres
     ports:
       - 5432:5432
+    volumes:
+      - ./1_postgres:/etc/postgresql
+    command: "postgres -c config_file=/etc/postgresql/postgresql.conf"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 30s
       timeout: 30s
       retries: 3
+  
+  fakedata: 
+    build:
+      context: ./1_postgres
+    depends_on:
+      - db
+    volumes:
+      - ./1_postgres/load_fakedata.py:/load_fakedata.py
+    command: sh -c "sleep 10 && python load_fakedata.py"
 
   redis: 
     image: redis
@@ -53,6 +65,7 @@ services:
         echo "Waiting for Elasticsearch availability";
         until curl -s --cacert /certs/ca/ca.crt https://es01:9200 | grep -q "missing authentication credentials"; do sleep 30; done;
         echo "Starting pgsync";
+        bootstrap -c /config/schema.json
         pgsync -c /config/schema.json --daemon;
       '
 
