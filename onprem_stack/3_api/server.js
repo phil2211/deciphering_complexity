@@ -4,21 +4,22 @@ const pg = require('pg');
 
 // Initialize the Elasticsearch client
 const elasticClient = new elastic.Client({
-    node: 'https://ec2-18-159-124-217.eu-central-1.compute.amazonaws.com:9200',
+    node: 'https://es01:9200',
     tls: {
         rejectUnauthorized: false
     },
     auth: {
-        apiKey: "SHJLOGQ0Z0JUZkdEcVNPTW8zX1o6d2Q0ckdQS2ZRUENIQ293YlRoSVhCQQ=="
+        username: "elastic",
+        password: "Passw0rd"
     }
 });
 
 // Initialize the PostgreSQL client
 const pgClient = new pg.Client({
-  host: 'ec2-3-69-43-70.eu-central-1.compute.amazonaws.com',
+  host: 'db',
   port: 5432,
-  user: 'webapp',
-  password: 'Passw0rd',
+  user: 'postgres',
+  password: 'example',
   database: 'mycustomers',
 });
 

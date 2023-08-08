@@ -1,2 +1,0 @@
-CREATE DATABASE mycustomers;
-GRANT ALL PRIVILEDGES ON DATABASE mycustomers TO postgres;

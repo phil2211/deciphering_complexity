@@ -1,21 +1,22 @@
-# Use postgres/example user/password credentials
-version: '3.1'
+version: '3.9'
 
 services:
   db:
     image: postgres:latest
     restart: always
     environment:
-      POSTGRES_PASSWORD: example
-      POSTGRES_DB: mycustomers
-      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+      POSTGRES_DB: ${PG_DATABASE}
+      POSTGRES_USER: ${PG_USER}
     ports:
       - 5432:5432
+    tmpfs:
+      - /var/lib/postgresql/data #Use a temporary in-memory file system
     volumes:
       - ./1_postgres:/etc/postgresql
     command: "postgres -c config_file=/etc/postgresql/postgresql.conf"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ["CMD-SHELL", "pg_isready -U ${PG_USER} -d ${PG_DATABASE}"]
       interval: 30s
       timeout: 30s
       retries: 3
@@ -49,10 +50,10 @@ services:
       - db
       - es01
     environment:
-      PG_USER: postgres
+      PG_USER: ${PG_USER}
       PG_HOST: db
       PG_PORT: 5432
-      PG_PASSWORD: example
+      PG_PASSWORD: ${PG_PASSWORD}
       ELASTICSEARCH_HOST: es01
       ELASTICSEARCH_PORT: 9200
       ELASTICSEARCH_USE_SSL: true
@@ -141,6 +142,8 @@ services:
       setup:
         condition: service_healthy
     image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
+    tmpfs:
+      - /usr/share/elasticsearch/data  # Use a temporary in-memory file system
     volumes:
       - certs:/usr/share/elasticsearch/config/certs
       - esdata01:/usr/share/elasticsearch/data
@@ -204,6 +207,16 @@ services:
       interval: 10s
       timeout: 10s
       retries: 120
+
+  nodejs-app:
+    depends_on:
+      - es01
+      - db 
+    build:
+      context: ./3_api
+    ports:
+      - "4000:4000"
+
 
 volumes:
   certs:
