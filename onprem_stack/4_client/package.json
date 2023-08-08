@@ -29,12 +29,10 @@
     "react-error-overlay": "6.0.9"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts --openssl-legacy-provider start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "start:backend": "cd ../3_api && npm run start",
-    "start:all": "concurrently \"npm run start\" \"npm run start:backend\""
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [

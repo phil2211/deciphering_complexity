@@ -1,3 +1,0 @@
-faker
-random2
-psycopg2-binary

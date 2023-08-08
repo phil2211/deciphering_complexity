@@ -116,6 +116,7 @@ const resolvers = {
           }
         }
       
+      console.log(JSON.stringify(query,"",2));
       const result = await elasticClient.search({
         index: 'mycustomers',
         from: startRow,
@@ -123,7 +124,7 @@ const resolvers = {
         query
       })
 
-      console.log(result.hits.hits);
+      //console.log(result.hits.hits);
       return  {
         lastRow: result.hits.total.value,
         rows: result.hits.hits.map(hit => ({
