@@ -217,6 +217,12 @@ services:
     ports:
       - "4000:4000"
 
+  react-app:
+    build:
+      context: ./4_client
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"  
 
 volumes:
   certs:
