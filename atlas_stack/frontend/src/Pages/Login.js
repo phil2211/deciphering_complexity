@@ -23,6 +23,7 @@ const Login = () => {
 
     return (
         <Container>
+            {/*}
             <h1>Bitte einloggen</h1>
             <FormRow>
                 <TextInput
@@ -40,6 +41,7 @@ const Login = () => {
                     value={password}
                 />
             </FormRow>
+            {*/}
             <Button variant="primary" onClick={handleLogin}>Login</Button>
         </Container>
     )
