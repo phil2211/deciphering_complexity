@@ -1,0 +1,46 @@
+{
+    "properties": {
+        "_id": {
+            "bsonType": "objectId"
+        },
+        "city": {
+            "bsonType": "string"
+        },
+        "contacts": {
+            "bsonType": "array",
+            "items": {
+                "bsonType": "object",
+                "properties": {
+                    "channel": {
+                        "bsonType": "string"
+                    },
+                    "type": {
+                        "bsonType": "string"
+                    },
+                    "value": {
+                        "bsonType": "string"
+                    }
+                }
+            }
+        },
+        "country": {
+            "bsonType": "string"
+        },
+        "firstname": {
+            "bsonType": "string"
+        },
+        "id": {
+            "bsonType": "int"
+        },
+        "lastname": {
+            "bsonType": "string"
+        },
+        "profession": {
+            "bsonType": "string"
+        },
+        "street": {
+            "bsonType": "string"
+        }
+    },
+    "title": "MyCustomer"
+}

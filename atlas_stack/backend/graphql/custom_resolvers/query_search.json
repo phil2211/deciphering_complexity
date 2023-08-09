@@ -1,0 +1,83 @@
+{
+    "field_name": "search",
+    "function_name": "getGridData",
+    "input_type": {
+        "properties": {
+            "endRow": {
+                "bsonType": "int"
+            },
+            "searchText": {
+                "bsonType": "string"
+            },
+            "startRow": {
+                "bsonType": "int"
+            }
+        },
+        "title": "GridQueryModel",
+        "type": "object"
+    },
+    "input_type_format": "custom",
+    "on_type": "Query",
+    "payload_type": {
+        "properties": {
+            "lastRow": {
+                "bsonType": "int"
+            },
+            "query": {
+                "bsonType": "string"
+            },
+            "rows": {
+                "bsonType": "array",
+                "items": {
+                    "bsonType": "object",
+                    "properties": {
+                        "_id": {
+                            "bsonType": "objectId"
+                        },
+                        "city": {
+                            "bsonType": "string"
+                        },
+                        "contacts": {
+                            "bsonType": "array",
+                            "items": {
+                                "bsonType": "object",
+                                "properties": {
+                                    "channel": {
+                                        "bsonType": "string"
+                                    },
+                                    "type": {
+                                        "bsonType": "string"
+                                    },
+                                    "value": {
+                                        "bsonType": "string"
+                                    }
+                                }
+                            }
+                        },
+                        "country": {
+                            "bsonType": "string"
+                        },
+                        "firstname": {
+                            "bsonType": "string"
+                        },
+                        "id": {
+                            "bsonType": "int"
+                        },
+                        "lastname": {
+                            "bsonType": "string"
+                        },
+                        "profession": {
+                            "bsonType": "string"
+                        },
+                        "street": {
+                            "bsonType": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "title": "searchCustomers",
+        "type": "object"
+    },
+    "payload_type_format": "custom"
+}

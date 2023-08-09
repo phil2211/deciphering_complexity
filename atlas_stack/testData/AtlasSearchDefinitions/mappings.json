@@ -1,0 +1,41 @@
+{
+  "collectionName": "MyCustomers",
+  "database": "MyCustomers",
+  "name": "default",
+  "mappings": {
+    "dynamic": false,
+    "fields": {
+      "contacts": {
+        "dynamic": false,
+        "fields": {
+          "value": {
+            "type": "string"
+          }
+        },
+        "type": "embeddedDocuments"
+      },
+      "city": {
+        "type": "autocomplete"
+      },
+      "country": {
+        "type": "autocomplete"
+      },
+      "street": {
+        "type": "autocomplete"
+      },
+      "id": {
+        "representation": "double",
+        "type": "number"
+      },
+      "firstname": {
+        "type": "autocomplete"
+      },
+      "lastname": {
+        "type": "autocomplete"
+      },
+      "profession": {
+        "type": "autocomplete"
+      }
+    }
+  }
+}

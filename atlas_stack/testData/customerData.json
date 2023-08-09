@@ -1,0 +1,19 @@
+{
+    "id": "$inc",
+    "lastname": "$last",
+    "firstname": "$first",
+    "profession": {"$choose": {"from": ["Engineer", "Doctor", "Teacher", "Artist", "Designer", "Developer"]}},
+    "street": "$street",
+    "city": "$city",
+    "country": {"$country": {"full": true}},
+    "contacts": {
+        "$array": {
+            "of": {
+                "value":{"$choose": {"from": ["$email", "$phone"]}},
+                "type": {"$choose": {"from": ["personal", "work"], "weights": [1, 1]}},
+                "channel": {"$choose": {"from": ["email", "phone"]}}
+            },
+            "number": {"$integer": {"min": 1, "max": 5}}
+        }
+    }
+}

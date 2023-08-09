@@ -1,0 +1,7 @@
+{
+    "config_version": 20210101,
+    "app_id": "mycustomers-sjnpv",
+    "name": "MyCustomers",
+    "location": "DE-FF",
+    "deployment_model": "LOCAL"
+}
