@@ -36,6 +36,8 @@ services:
 
   adminer:
     image: adminer
+    depends_on:
+      - db
     restart: always
     ports:
       - 8080:8080
@@ -49,6 +51,7 @@ services:
     depends_on:
       - db
       - es01
+      - redis
     environment:
       PG_USER: ${PG_USER}
       PG_HOST: db
@@ -218,6 +221,8 @@ services:
       - "4000:4000"
 
   react-app:
+    depends_on:
+      - nodejs-app
     build:
       context: ./4_client
       dockerfile: Dockerfile
