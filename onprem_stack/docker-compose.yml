@@ -43,7 +43,8 @@ services:
       - 8080:8080
 
   pgsync: 
-    image: govpf/pgsync
+    build: 
+      context: ./2_elastic_pgsync
     restart: always
     volumes:
       - certs:/certs
