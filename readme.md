@@ -3,6 +3,8 @@ The goal of this little project is to help you with a simple but concrete exampl
 
 The challenge here is to have the same client using two totally different backend implementations providing the same features.
 
+![The challenge](/assets/challenge.png)
+
 ## The On Premise Stack
 This stack is Docker based and provides Postgres, Elasticsearch, Apollo Server for GraphQL, PGSync and Redis for database synchronisation
 
