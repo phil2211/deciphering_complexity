@@ -8,9 +8,12 @@ The challenge here is to have the same client using two totally different backen
 ## The On Premise Stack
 This stack is Docker based and provides Postgres, Elasticsearch, Apollo Server for GraphQL, PGSync and Redis for database synchronisation
 
+![OnPrem Stack](/assets/onprem.png)
+
 ## The MongoDB Atlas Stack
 This stack provides you all the features in the same way as the on premise stack using the same React client.
 
+![Atlas](/assets/atlas.png)
 
 ## How to compare?
 ### On Premise Stack
