@@ -13,7 +13,7 @@ This stack is Docker based and provides Postgres, Elasticsearch, Apollo Server f
 ## The MongoDB Atlas Stack
 This stack provides you all the features in the same way as the on premise stack using the same React client.
 
-<img src="assets/atlas.png" alt="Atlas" width="50%"/>
+<img src="assets/atlas.png" alt="Atlas" width="30%"/>
 
 ## How to compare?
 ### On Premise Stack
