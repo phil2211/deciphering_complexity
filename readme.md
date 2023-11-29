@@ -45,7 +45,7 @@ brew install mongodb-atlas-cli mongodb-database-tools node npm
 ```
 atlas completion zsh > $(brew --prefix)/share/zsh/site-functions/_atlas
 ```
-3. Install [mgenerate](https://github.com/rueckstiess/mgeneratejs) and the [Realm CLI](https://www.mongodb.com/docs/atlas/app-services/cli/)
+3. Install [mgenerate](https://github.com/rueckstiess/mgeneratejs) and the [Atlas App Services CLI](https://www.mongodb.com/docs/atlas/app-services/cli/)
 ```
 npm install -g mgeneratejs atlas-app-services-cli
 ```
