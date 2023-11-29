@@ -10,4 +10,4 @@ fi
 USER=$1
 PW=$2
 CLUSTERID=$3
-mgeneratejs -n 10000 < testData/customerData.json | mongoimport -u $USER -p $PW -c MyCustomers mongodb+srv://mycustomers.$CLUSTERID.mongodb.net/MyCustomers
+mgeneratejs -n 10000 < testData/customerData.json | mongoimport -u $USER -p $PW -c MyCustomers mongodb+srv://atlasstackdemo.$CLUSTERID.mongodb.net/MyCustomers
