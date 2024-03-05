@@ -1,8 +1,5 @@
 {
-    "config_version": 20210101,
-    "app_id": "atlasdemoapp-tplnk",
     "name": "AtlasDemoApp",
-    "location": "DE-FF",
     "provider_region": "aws-eu-central-1",
     "deployment_model": "LOCAL"
 }

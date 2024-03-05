@@ -25,6 +25,7 @@ fi
 
 #Create Atlas Project
 atlas auth login -P AtlasStack && \
+atlas config set -P AtlasStack org_id `atlas organizations -P atlasstack ls | awk 'NR==2 {print $1}'` && \
 atlas projects create AtlasStack -P AtlasStack && \
 atlas config set -P AtlasStack project_id `atlas project ls -P AtlasStack | grep AtlasStack | awk '{ print $1 }'` && \
 atlas quickstart --skipMongosh --skipSampleData --provider AWS --region EU_CENTRAL_1 --tier M0 --username admin --password Passw0rd --accessListIp "0.0.0.0/0" --clusterName AtlasStackDemo -P AtlasStack --force && \
@@ -32,6 +33,9 @@ sh testData/loadTestdata.sh admin Passw0rd $(atlas cluster connectionstrings des
 atlas clusters search indexes create -P AtlasStack -f "testData/AtlasSearchDefinitions/mappings.json" --clusterName AtlasStackDemo && \
 atlas project apiKeys create --desc appservices --role GROUP_OWNER -P AtlasStack > AtlasAPIKeys.txt && \
 appservices login --api-key $(cat AtlasAPIKeys.txt | grep "Public API Key" | awk '{ print $4 }') --private-api-key $(cat AtlasAPIKeys.txt | grep "Private API Key" | awk '{ print $4 }') -y --profile AtlasStack && \
+appservices apps create -y --profile AtlasStack -n AtlasDemoApp --provider-region aws-eu-central-1 -d LOCAL --local DeleteMe && \
+mv DeleteMe/.mdb/meta.json backend/.mdb/ && \
 appservices push --project `atlas project ls -P AtlasStack | grep AtlasStack | awk '{ print $1 }'` --local "backend" --include-package-json -y --profile AtlasStack && \
 echo "REACT_APP_REALMAPP="$(appservices apps list --profile AtlasStack | grep atlasdemoapp | awk '{print $1}') > frontend/.env.local && \
+rm -rf DeleteMe && \
 cd frontend && npm install && npm start
